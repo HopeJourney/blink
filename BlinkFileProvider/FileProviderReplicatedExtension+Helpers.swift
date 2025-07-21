@@ -718,8 +718,8 @@ extension FileProviderReplicatedExtension {
         translator.directoryFilesAndAttributes()
           .flatMap { $0.publisher }
           .filter { fileAttributes in
-            let fileName = fileAttributes[.name] as! String
-            guard let modificationDate = fileAttributes[.modificationDate] as? Date else { return false }
+            let fileName = fileAttributes[FileAttributeKey.name] as! String
+            guard let modificationDate = fileAttributes[FileAttributeKey.modificationDate] as? Date else { return false }
 
             return fileName.starts(with: ".blink.tmp.") &&
               modificationDate < Date().addingTimeInterval(-3600)
