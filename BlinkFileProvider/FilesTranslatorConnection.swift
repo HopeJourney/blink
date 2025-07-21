@@ -191,13 +191,15 @@ public struct BlinkFileProviderPath {
   }
 }
 
-public enum FileTranslatorFactory {
+
   // The configurator gives us more flexibility on locations for configurations. So BlinkTests or others do not depend on
   // Blink locations.
-  public protocol Configurator {
-    func sshConfig(host title: String) throws -> (String, SSHClientConfig)
-  }
+public protocol Configurator {
+  func sshConfig(host title: String) throws -> (String, SSHClientConfig)
+}
 
+
+public enum FileTranslatorFactory {
   static func rootTranslator(for path: BlinkFileProviderPath, configurator: Configurator) -> AnyPublisher<Translator, Error> {
     // TODO The domain.pathRelativeToDocumentStorage shouldn't be used in new Replicated Extension.
     // TODO This should probably receive a string, or another object that simplifies the setup, instead of a Domain, which is an
