@@ -725,13 +725,14 @@ extension FileProviderReplicatedExtension {
               modificationDate < Date().addingTimeInterval(-3600)
           }
         // Flow control. Do not overwhelm the connection.
-          .flatMap(maxPublishers: .max(3)) { fileAttributes in
+          .flatMap(maxPublishers: .max(3)) { fileAttributes -> AnyPublisher<String, Error> in
             let fileName = fileAttributes[FileAttributeKey.name] as! String
             return translator.cloneWalkTo(fileName)
               .flatMap { $0.remove() }
             // Ignore errors.
               .catch { _ in Just(false) }
               .map { _ in fileName }
+              .eraseToAnyPublisher()
           }
       }
       .sink(
