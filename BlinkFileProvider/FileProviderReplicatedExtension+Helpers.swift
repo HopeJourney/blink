@@ -732,6 +732,7 @@ extension FileProviderReplicatedExtension {
             // Ignore errors.
               .catch { _ in Just(false) }
               .map { _ in fileName }
+              .setFailureType(to: Error.self)
               .eraseToAnyPublisher()
           }
       }
